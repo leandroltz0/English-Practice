@@ -1,0 +1,51 @@
+@use "variables" as *;
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #E2E8EE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+
+  &--fade-out {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  &__logo-wrapper {
+    animation: logoEntrance 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  &__logo {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 28px;
+    filter: drop-shadow(0 8px 32px rgba(91, 155, 213, 0.25));
+  }
+}
+
+@keyframes logoEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

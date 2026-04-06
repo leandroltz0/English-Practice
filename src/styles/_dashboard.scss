@@ -1,0 +1,342 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+.dashboard {
+  &__header {
+    margin-bottom: calc($space-base * 4);
+
+    h1 {
+      margin-bottom: calc($space-base * 1);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: calc($space-base * 3);
+    margin-bottom: calc($space-base * 5);
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__feature-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+
+    &--disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      border-style: dashed;
+      position: relative;
+
+      .coming-soon-badge {
+        position: absolute;
+        top: calc($space-base * 2);
+        right: calc($space-base * 2);
+        font-size: 11px;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    .feature-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: $color-primary;
+      margin-bottom: calc($space-base);
+    }
+
+    .feature-icon {
+      color: $color-primary;
+      margin-bottom: calc($space-base * 2);
+      svg {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    h2 {
+      margin-bottom: calc($space-base * 2);
+    }
+
+    ul {
+      margin: calc($space-base * 2) 0 0;
+      padding-left: calc($space-base * 3);
+      color: $text-secondary;
+      font-size: 14px;
+
+      li {
+        margin-bottom: calc($space-base);
+      }
+    }
+  }
+
+  // ── Section pattern ──
+  &__section {
+    margin-bottom: calc($space-base * 5);
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: calc($space-base);
+      margin-bottom: calc($space-base * 3);
+      color: $text-primary;
+
+      h2 {
+        margin: 0;
+      }
+    }
+  }
+
+  // ── Word of the Day ──
+  &__wotd-card {
+    .wotd-word {
+      font-size: 28px;
+      font-weight: 800;
+      color: $text-primary;
+      margin-bottom: calc($space-base);
+    }
+
+    .wotd-phonetic {
+      font-family: monospace;
+      font-size: 16px;
+      color: $color-primary;
+      margin-bottom: calc($space-base * 2);
+    }
+
+    .wotd-definition {
+      margin-top: calc($space-base * 2);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .wotd-example {
+      margin-top: calc($space-base * 2);
+      padding: calc($space-base * 2);
+      background-color: rgba($color-primary, 0.06);
+      border-left: 3px solid $color-primary;
+      border-radius: 0 $border-radius $border-radius 0;
+      font-style: italic;
+      color: $text-secondary;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .wotd-origin {
+      margin-top: calc($space-base * 2);
+      font-size: 13px;
+      color: $text-secondary;
+    }
+  }
+
+  // ── Daily Tip ──
+  &__tip-card {
+    .tip-header {
+      display: flex;
+      align-items: center;
+      gap: calc($space-base * 1.5);
+      margin-bottom: calc($space-base * 2);
+
+      .tip-icon {
+        font-size: 20px;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 18px;
+      }
+    }
+
+    .tip-content {
+      font-size: 15px;
+      line-height: 1.7;
+      color: $text-secondary;
+    }
+  }
+
+  // ── Quiz ──
+  &__quiz-card {
+    .quiz-start {
+      text-align: center;
+      padding: calc($space-base * 2) 0;
+
+      p {
+        margin-bottom: calc($space-base * 3);
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    .quiz-finished {
+      text-align: center;
+      padding: calc($space-base * 3) 0;
+
+      .quiz-score {
+        font-size: 48px;
+        font-weight: 800;
+        color: $color-primary;
+        margin-bottom: calc($space-base * 2);
+      }
+
+      p {
+        font-size: 18px;
+        margin-bottom: calc($space-base * 3);
+      }
+    }
+
+    .quiz-active {
+      .quiz-progress {
+        font-size: 13px;
+        font-weight: 700;
+        color: $text-secondary;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: calc($space-base * 2);
+      }
+
+      .quiz-question {
+        font-size: 20px;
+        margin-bottom: calc($space-base * 3);
+      }
+
+      .quiz-options {
+        display: flex;
+        flex-direction: column;
+        gap: calc($space-base * 1.5);
+      }
+
+      .quiz-option {
+        @include hand-drawn-border;
+        background: $bg-surface;
+        padding: calc($space-base * 1.5) calc($space-base * 2.5);
+        font-size: 15px;
+        font-family: $font-primary;
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: all 0.15s ease;
+
+        &:hover:not(:disabled) {
+          background-color: rgba($color-primary, 0.06);
+          border-color: $color-primary;
+        }
+
+        &:disabled {
+          cursor: default;
+        }
+
+        &.correct {
+          background-color: rgba($color-success, 0.15);
+          border-color: $color-success;
+          color: darken($color-success, 25%);
+        }
+
+        &.incorrect {
+          background-color: rgba($color-danger, 0.1);
+          border-color: $color-danger;
+          color: $color-danger;
+        }
+      }
+
+      .quiz-explanation {
+        margin-top: calc($space-base * 3);
+        padding: calc($space-base * 2);
+        background-color: rgba($color-primary, 0.05);
+        border-radius: $border-radius;
+
+        p {
+          font-size: 14px;
+          line-height: 1.6;
+          margin-bottom: calc($space-base * 2);
+        }
+      }
+    }
+  }
+
+  // ── Categories ──
+  &__category-card {
+    min-width: 140px;
+    padding: calc($space-base * 2);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: translate(2px, 2px);
+    }
+
+    .category-icon {
+      font-size: 28px;
+      margin-bottom: calc($space-base);
+    }
+
+    h3 {
+      font-size: 14px;
+      margin: 0 0 calc($space-base);
+    }
+
+    p {
+      font-size: 12px;
+      color: $text-secondary;
+      margin: 0;
+    }
+  }
+
+  // ── Recent Phrases ──
+  &__recent {
+    h2 {
+      margin-bottom: calc($space-base * 3);
+    }
+  }
+
+  &__scroll-row {
+    display: flex;
+    overflow-x: auto;
+    gap: calc($space-base * 2);
+    padding-bottom: calc($space-base * 2);
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+  }
+
+  &__phrase-card {
+    min-width: 220px;
+    max-width: 260px;
+    padding: calc($space-base * 2) calc($space-base * 2.5);
+    display: flex;
+    flex-direction: column;
+    gap: calc($space-base * 1.5);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+
+    &:hover {
+      transform: translate(2px, 2px);
+    }
+
+    h3 {
+      font-size: 16px;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .phrase-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: $text-secondary;
+    }
+  }
+}

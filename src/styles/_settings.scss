@@ -1,0 +1,340 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+.settings {
+  &__header {
+    margin-bottom: calc($space-base * 4);
+
+    h1 {
+      margin-bottom: calc($space-base);
+    }
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: calc($space-base * 4);
+    margin-bottom: calc($space-base * 5);
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__section {
+    margin-bottom: calc($space-base * 4);
+
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: $text-secondary;
+      margin-bottom: calc($space-base * 2);
+    }
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: calc($space-base * 2) 0;
+    border-bottom: 1px solid $border-subtle;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__field-info {
+    flex: 1;
+
+    .label {
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    .value {
+      color: $text-secondary;
+      font-size: 14px;
+    }
+  }
+
+  .action-link {
+    background: none;
+    border: none;
+    color: $color-primary;
+    font-family: $font-primary;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 8px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // ── Toggle switch ──
+  .toggle {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    cursor: pointer;
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    &__slider {
+      position: absolute;
+      inset: 0;
+      background-color: $border-subtle;
+      border-radius: 24px;
+      border: $border-thickness solid $border-primary;
+      transition: all 0.2s ease;
+
+      &::before {
+        content: '';
+        position: absolute;
+        height: 16px;
+        width: 16px;
+        left: 3px;
+        bottom: 2.5px;
+        background-color: $text-secondary;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+      }
+    }
+
+    input:checked + &__slider {
+      background-color: $color-primary;
+      border-color: $color-primary;
+
+      &::before {
+        transform: translateX(19px);
+        background-color: white;
+      }
+    }
+  }
+
+  // ── Preferences ──
+  &__field-group {
+    margin-bottom: calc($space-base * 3);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .label {
+      font-weight: 700;
+      margin-bottom: calc($space-base * 1.5);
+      font-size: 15px;
+    }
+  }
+
+  &__difficulty-pills {
+    display: flex;
+    gap: 0;
+
+    .difficulty-pill {
+      @include hand-drawn-border;
+      background: $bg-surface;
+      padding: calc($space-base) calc($space-base * 2);
+      font-size: 14px;
+      font-family: $font-primary;
+      cursor: pointer;
+      border-radius: 0;
+      transition: all 0.15s ease;
+
+      &:first-child {
+        border-radius: $border-radius 0 0 $border-radius;
+      }
+
+      &:last-child {
+        border-radius: 0 $border-radius $border-radius 0;
+      }
+
+      &:not(:first-child) {
+        margin-left: -$border-thickness;
+      }
+
+      &.active {
+        background-color: $color-primary;
+        color: white;
+        border-color: $color-primary;
+        z-index: 1;
+        position: relative;
+      }
+
+      &:hover:not(.active) {
+        background-color: rgba($color-primary, 0.06);
+      }
+    }
+  }
+
+  &__checkboxes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: calc($space-base * 1.5);
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: calc($space-base);
+      font-size: 14px;
+      cursor: pointer;
+
+      input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: $color-primary;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__select {
+    @include hand-drawn-border;
+    background-color: $bg-surface;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: $font-primary;
+    width: 100%;
+    outline: none;
+    cursor: pointer;
+
+    &:focus {
+      border-color: $color-primary;
+    }
+  }
+
+  // ── Danger zone ──
+  &__danger-zone {
+    @include card-surface;
+    background-color: $color-danger-bg;
+    border-color: $color-danger;
+
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: $color-danger;
+      margin-bottom: calc($space-base * 2);
+    }
+
+    .danger-link {
+      background: none;
+      border: none;
+      color: $color-danger;
+      font-family: $font-primary;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  // ── Bottom bar ──
+  &__bottom {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: calc($space-base * 3);
+    padding-top: calc($space-base * 3);
+    border-top: 1px solid $border-subtle;
+  }
+
+  &__discord-link {
+    color: $text-secondary;
+    text-decoration: none;
+    font-size: 14px;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  // ── Modal ──
+  &__modal {
+    text-align: center;
+    padding: calc($space-base * 2);
+
+    h3 {
+      margin: 0 0 calc($space-base * 2);
+      color: $text-primary;
+    }
+
+    p {
+      color: $text-secondary;
+      margin-bottom: calc($space-base * 3);
+    }
+  }
+
+  &__modal-actions {
+    display: flex;
+    gap: calc($space-base * 2);
+    justify-content: center;
+  }
+}
+
+// ── Reusable modal styles ──
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  @include card-surface;
+  position: relative;
+  max-width: 400px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: calc($space-base * 2);
+  right: calc($space-base * 2);
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: $text-secondary;
+  padding: 4px 8px;
+  line-height: 1;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.button--danger {
+  background-color: transparent;
+  color: $color-danger;
+  border-color: $color-danger;
+
+  &:hover {
+    background-color: $color-danger;
+    color: white;
+  }
+}

@@ -1,0 +1,25 @@
+@use "variables" as *;
+
+@mixin hand-drawn-border($color: $border-primary, $thickness: $border-thickness) {
+  border: $thickness solid $color;
+  border-radius: $border-radius;
+  /* Simulating the SVG roughness by slight irregular border radius and shadow */
+  border-top-left-radius: 9px 7px;
+  border-bottom-right-radius: 7px 9px;
+  border-top-right-radius: 8px 10px;
+  border-bottom-left-radius: 10px 8px;
+}
+
+@mixin card-surface {
+  background: $bg-surface;
+  @include hand-drawn-border;
+  box-shadow: $shadow-hard;
+  transition: all 0.2s ease;
+  padding: calc($space-base * 3);
+}
+
+@mixin dot-grid {
+  background-color: $bg-canvas;
+  background-image: radial-gradient(#E5E7EB 1px, transparent 1px);
+  background-size: 20px 20px;
+}

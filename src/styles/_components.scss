@@ -1,0 +1,85 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+.card {
+  @include card-surface;
+}
+
+.button {
+  @include hand-drawn-border;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-base;
+  padding: calc($space-base * 1.5) calc($space-base * 3);
+  font-size: 16px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  box-shadow: $shadow-hard;
+  cursor: pointer;
+
+  &:hover {
+    transform: translate(2px, 2px);
+    box-shadow: $shadow-hard-hover;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+
+  &--primary {
+    background-color: $color-primary;
+    color: $bg-surface;
+  }
+
+  &--outline {
+    background-color: $bg-surface;
+    color: $color-primary;
+    border-color: $color-primary;
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 700;
+
+  &--success {
+    background-color: rgba($color-success, 0.2);
+    color: darken($color-success, 20%);
+  }
+
+  &--neutral {
+    background-color: $border-subtle;
+    color: $text-secondary;
+  }
+}
+
+.input {
+  @include hand-drawn-border;
+  background-color: $bg-surface;
+  padding: 12px;
+  font-size: 16px;
+  width: 100%;
+  outline: none;
+  transition: all 0.2s ease;
+
+  &:focus {
+    border-color: $color-primary;
+    border-width: 2px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}

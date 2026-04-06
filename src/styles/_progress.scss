@@ -1,0 +1,228 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+.progress-page {
+  &__header {
+    margin-bottom: calc($space-base * 4);
+
+    h1 {
+      margin-bottom: calc($space-base);
+    }
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: calc($space-base * 2);
+    margin-bottom: calc($space-base * 4);
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__stat-card {
+    text-align: center;
+    padding: calc($space-base * 2.5);
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto calc($space-base * 1.5);
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: 800;
+      color: $text-primary;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: $text-secondary;
+    }
+  }
+
+  // ── Weekly chart ──
+  &__weekly {
+    margin-bottom: calc($space-base * 4);
+
+    h3 {
+      margin: 0 0 calc($space-base * 3);
+    }
+
+    .weekly-bars {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      height: 120px;
+      gap: calc($space-base);
+
+      .weekly-bar {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        justify-content: flex-end;
+
+        .bar-fill {
+          width: 100%;
+          max-width: 40px;
+          background-color: rgba($color-primary, 0.3);
+          border-radius: 4px 4px 0 0;
+          border: 1px solid $color-primary;
+          min-height: 4px;
+          transition: height 0.3s ease;
+        }
+
+        .bar-label {
+          font-size: 12px;
+          color: $text-secondary;
+          margin-top: calc($space-base);
+        }
+
+        .bar-value {
+          font-size: 11px;
+          color: $text-secondary;
+          margin-top: 2px;
+        }
+
+        &.today {
+          .bar-fill {
+            background-color: $color-primary;
+          }
+          .bar-label {
+            color: $color-primary;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+
+  // ── Sections ──
+  &__section {
+    margin-bottom: calc($space-base * 4);
+
+    h3 {
+      margin-bottom: calc($space-base * 3);
+    }
+  }
+
+  // ── Category breakdown ──
+  &__categories {
+    display: flex;
+    flex-direction: column;
+    gap: calc($space-base * 2);
+  }
+
+  &__category-row {
+    display: flex;
+    align-items: center;
+    gap: calc($space-base * 3);
+    padding: calc($space-base * 2) calc($space-base * 3);
+
+    .category-info {
+      min-width: 130px;
+
+      .category-name {
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 2px;
+      }
+
+      .category-count {
+        font-size: 12px;
+        color: $text-secondary;
+      }
+    }
+
+    .category-bar-wrapper {
+      flex: 1;
+    }
+
+    .category-bar {
+      height: 10px;
+      background-color: $border-subtle;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .category-bar-fill {
+      height: 100%;
+      background-color: $color-primary;
+      border-radius: 6px;
+      transition: width 0.4s ease;
+    }
+  }
+
+  // ── Milestones ──
+  &__milestones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: calc($space-base * 2);
+
+    @media (min-width: 900px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__milestone {
+    display: flex;
+    gap: calc($space-base * 2);
+    padding: calc($space-base * 2);
+
+    &.locked {
+      opacity: 0.55;
+      border-style: dashed;
+    }
+
+    .milestone-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .milestone-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .milestone-title {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    .milestone-desc {
+      font-size: 12px;
+      color: $text-secondary;
+      margin-bottom: calc($space-base);
+    }
+
+    .milestone-bar {
+      height: 6px;
+      background-color: $border-subtle;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .milestone-bar-fill {
+      height: 100%;
+      background-color: $color-success;
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+
+    .milestone-count {
+      font-size: 11px;
+      color: $text-secondary;
+    }
+  }
+}
