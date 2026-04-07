@@ -9,6 +9,7 @@
 @use "styles/settings" as *;
 @use "styles/progress" as *;
 @use "styles/aiscenarios" as *;
+@use "styles/darkmode" as *;
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
 
@@ -23,11 +24,13 @@ html, body {
   color: $text-primary;
   @include dot-grid;
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   color: $text-primary;
+  transition: color 0.3s ease;
 }
 
 h1 {
@@ -44,6 +47,7 @@ p {
   font-size: 16px;
   font-weight: 400;
   color: $text-secondary;
+  transition: color 0.3s ease;
 }
 
 button {

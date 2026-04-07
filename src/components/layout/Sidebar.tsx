@@ -1,5 +1,6 @@
 import React from 'react';
 import { Home, PlaySquare, Sparkles, TrendingUp, User, Settings, Sun, Moon, Monitor } from 'lucide-react';
+import { useTheme } from '../../contexts/ThemeContext';
 import logoSrc from '../../assets/logo-no-bg.png';
 
 export type TabType = 'home' | 'phrase' | 'scenarios' | 'progress' | 'profile' | 'settings';
@@ -21,7 +22,16 @@ const bottomNavItems: { id: TabType; icon: React.ReactNode; label: string }[] = 
   { id: 'settings', icon: <Settings size={18} />, label: 'Settings' },
 ];
 
+type ThemeOption = 'light' | 'dark' | 'auto';
+const themeOptions: { id: ThemeOption; icon: React.ReactNode; label: string }[] = [
+  { id: 'light', icon: <Sun size={13} />, label: 'Light' },
+  { id: 'dark', icon: <Moon size={13} />, label: 'Dark' },
+  { id: 'auto', icon: <Monitor size={13} />, label: 'Auto' },
+];
+
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
+  const { theme, setTheme } = useTheme();
+
   return (
     <nav className="sidebar" role="navigation" aria-label="Main navigation">
 
@@ -73,20 +83,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
         ))}
       </div>
 
-      {/* Theme toggle buttons - desktop only */}
+      {/* Theme toggle buttons — NOW FUNCTIONAL */}
       <div className="sidebar__theme-toggle">
-        <button type="button" className="sidebar__theme-btn" title="Light mode">
-          <Sun size={13} />
-          <span>Light</span>
-        </button>
-        <button type="button" className="sidebar__theme-btn" title="Dark mode">
-          <Moon size={13} />
-          <span>Dark</span>
-        </button>
-        <button type="button" className="sidebar__theme-btn sidebar__theme-btn--active" title="Auto mode">
-          <Monitor size={13} />
-          <span>Auto</span>
-        </button>
+        {themeOptions.map((opt) => (
+          <button
+            key={opt.id}
+            type="button"
+            className={`sidebar__theme-btn ${theme === opt.id ? 'sidebar__theme-btn--active' : ''}`}
+            title={`${opt.label} mode`}
+            onClick={() => setTheme(opt.id)}
+            aria-pressed={theme === opt.id}
+          >
+            {opt.icon}
+            <span>{opt.label}</span>
+          </button>
+        ))}
       </div>
 
     </nav>

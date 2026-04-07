@@ -1,4 +1,6 @@
 import { useState, useCallback } from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { ToastProvider } from './contexts/ToastContext';
 import { Layout } from './components/layout/Layout';
 import { LoadingScreen } from './components/LoadingScreen';
 import type { TabType } from './components/layout/Sidebar';
@@ -41,9 +43,13 @@ function App() {
   }
 
   return (
-    <Layout activeTab={activeTab} setActiveTab={setActiveTab}>
-      {renderContent()}
-    </Layout>
+    <ThemeProvider>
+      <ToastProvider>
+        <Layout activeTab={activeTab} setActiveTab={setActiveTab}>
+          {renderContent()}
+        </Layout>
+      </ToastProvider>
+    </ThemeProvider>
   );
 }
 

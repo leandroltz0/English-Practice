@@ -1,0 +1,545 @@
+@use "variables" as *;
+
+/* ═══════════════════════════════════════════════
+   Dark Mode — English Lab (Excalidraw Style)
+   Maintains hand-drawn aesthetic in dark theme
+═══════════════════════════════════════════════ */
+
+$dark-bg-canvas: #1e1e1e;
+$dark-bg-surface: #282828;
+$dark-primary: #7cb3e8;
+$dark-text-primary: #f0f0f0;
+$dark-text-secondary: #a0a0a0;
+$dark-border-primary: #d1d1d1;
+$dark-border-subtle: #3a3a3a;
+$dark-danger: #ff6b6b;
+$dark-success: #8dd5b4;
+$dark-danger-bg: #3d1515;
+$dark-shadow: rgba(0, 0, 0, 0.4);
+$dark-dot-color: #2a2a2a;
+
+[data-theme="dark"] {
+
+  // ── Global ──
+  &,
+  body {
+    background-color: $dark-bg-canvas;
+    background-image: radial-gradient($dark-dot-color 1px, transparent 1px);
+    color: $dark-text-primary;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $dark-text-primary;
+  }
+
+  p {
+    color: $dark-text-secondary;
+  }
+
+  // ── Card ──
+  .card {
+    background: $dark-bg-surface;
+    border-color: $dark-border-primary;
+    box-shadow: 3px 3px 0px $dark-shadow;
+  }
+
+  // ── Button ──
+  .button {
+    border-color: $dark-border-primary;
+    box-shadow: 3px 3px 0px $dark-shadow;
+
+    &--primary {
+      background-color: $dark-primary;
+      color: $dark-bg-canvas;
+    }
+
+    &--outline {
+      background-color: $dark-bg-surface;
+      color: $dark-primary;
+      border-color: $dark-primary;
+    }
+
+    &:hover {
+      box-shadow: 1px 1px 0px $dark-shadow;
+    }
+
+    &:active {
+      box-shadow: none;
+    }
+
+    &:disabled,
+    &--loading {
+      opacity: 0.5;
+    }
+  }
+
+  .button--danger {
+    color: $dark-danger;
+    border-color: $dark-danger;
+
+    &:hover {
+      background-color: $dark-danger;
+      color: white;
+    }
+  }
+
+  // ── Badge ──
+  .badge {
+    &--success {
+      background-color: rgba($dark-success, 0.2);
+      color: $dark-success;
+    }
+
+    &--neutral {
+      background-color: $dark-border-subtle;
+      color: $dark-text-secondary;
+    }
+  }
+
+  // ── Input ──
+  .input {
+    background-color: $dark-bg-surface;
+    border-color: $dark-border-primary;
+    color: $dark-text-primary;
+
+    &:focus {
+      border-color: $dark-primary;
+    }
+
+    &::placeholder {
+      color: #6b7280;
+    }
+
+    &--error {
+      border-color: $dark-danger;
+    }
+  }
+
+  // ── Sidebar ──
+  .sidebar {
+    background-color: $dark-bg-surface;
+    border-color: $dark-border-primary;
+    box-shadow: 4px 4px 0px $dark-shadow;
+
+    @media (min-width: 768px) {
+      box-shadow: none;
+      border-right-color: $dark-border-primary;
+    }
+
+    &__logo-text {
+      color: $dark-text-primary;
+    }
+
+    &__section-label {
+      color: $dark-text-secondary;
+    }
+
+    &__item {
+      color: $dark-text-secondary;
+
+      &:hover {
+        color: $dark-text-primary;
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      &:focus-visible {
+        outline-color: $dark-border-primary;
+      }
+
+      &.active {
+        background-color: $dark-primary;
+        color: $dark-bg-canvas;
+        border-color: $dark-border-primary;
+        box-shadow: 2px 2px 0px $dark-shadow;
+
+        svg {
+          color: $dark-bg-canvas;
+        }
+
+        @media (min-width: 768px) {
+          box-shadow: 3px 3px 0px $dark-shadow;
+        }
+      }
+    }
+
+    &__theme-toggle {
+      border-color: $dark-border-primary;
+      box-shadow: 3px 3px 0px $dark-shadow;
+    }
+
+    &__theme-btn {
+      color: $dark-text-secondary;
+      border-right-color: $dark-border-primary;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: $dark-text-primary;
+      }
+
+      &--active {
+        background: $dark-primary;
+        color: $dark-bg-canvas;
+
+        &:hover {
+          background: $dark-primary;
+          color: $dark-bg-canvas;
+        }
+
+        svg {
+          color: $dark-bg-canvas;
+        }
+      }
+    }
+  }
+
+  // ── Modal ──
+  .modal-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  .modal-content {
+    background-color: $dark-bg-surface;
+    border-color: $dark-border-primary;
+    box-shadow: 3px 3px 0px $dark-shadow;
+  }
+
+  .modal-close {
+    color: $dark-text-secondary;
+
+    &:hover {
+      color: $dark-text-primary;
+    }
+  }
+
+  // ── Toast ──
+  .toast {
+    background: $dark-bg-surface;
+    border-color: $dark-border-primary;
+    box-shadow: 3px 3px 0px $dark-shadow;
+
+    &__title {
+      color: $dark-text-primary;
+    }
+
+    &__description {
+      color: $dark-text-secondary;
+    }
+
+    &__close {
+      color: $dark-text-secondary;
+
+      &:hover {
+        color: $dark-text-primary;
+      }
+    }
+
+    &--success .toast__icon {
+      color: $dark-success;
+    }
+
+    &--error .toast__icon {
+      color: $dark-danger;
+    }
+
+    &--warning .toast__icon {
+      color: #fbbf24;
+    }
+
+    &--info .toast__icon {
+      color: $dark-primary;
+    }
+  }
+
+  // ── Tooltip ──
+  .tooltip {
+    background: $dark-text-primary;
+    color: $dark-bg-canvas;
+  }
+
+  // ── Skeleton ──
+  .skeleton {
+    background-color: $dark-border-subtle;
+
+    &::after {
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+    }
+  }
+
+  // ── Dashboard ──
+  .dashboard {
+    &__feature-card {
+      .feature-label {
+        color: $dark-primary;
+      }
+
+      .feature-icon {
+        color: $dark-primary;
+      }
+    }
+
+    &__wotd-card {
+      .wotd-phonetic {
+        color: $dark-primary;
+      }
+
+      .wotd-example {
+        background-color: rgba($dark-primary, 0.06);
+        border-left-color: $dark-primary;
+        color: $dark-text-secondary;
+      }
+    }
+
+    &__quiz-card {
+      .quiz-option {
+        background: $dark-bg-surface;
+        border-color: $dark-border-primary;
+
+        &:hover:not(:disabled) {
+          background-color: rgba($dark-primary, 0.06);
+          border-color: $dark-primary;
+        }
+
+        &.correct {
+          background-color: rgba($dark-success, 0.15);
+          border-color: $dark-success;
+          color: $dark-success;
+        }
+
+        &.incorrect {
+          background-color: rgba($dark-danger, 0.1);
+          border-color: $dark-danger;
+          color: $dark-danger;
+        }
+      }
+
+      .quiz-explanation {
+        background-color: rgba($dark-primary, 0.05);
+      }
+
+      .quiz-score {
+        color: $dark-primary;
+      }
+    }
+  }
+
+  // ── PhraseFinder ──
+  .phrase-finder {
+    &__back {
+      color: $dark-primary;
+    }
+
+    .filter-chip {
+      background-color: $dark-bg-surface;
+      border-color: $dark-border-primary;
+
+      &:hover {
+        background-color: rgba($dark-primary, 0.1);
+      }
+
+      &.active {
+        background-color: $dark-primary;
+        color: $dark-bg-canvas;
+        border-color: $dark-primary;
+      }
+    }
+
+    &__pronunciation .phonetic {
+      color: $dark-primary;
+    }
+
+    &__video-info .video-title {
+      color: $dark-text-primary;
+    }
+  }
+
+  // ── Settings ──
+  .settings {
+    .action-link {
+      color: $dark-primary;
+    }
+
+    &__field-info .value {
+      color: $dark-text-secondary;
+    }
+
+    .toggle__slider {
+      background-color: $dark-border-subtle;
+      border-color: $dark-border-primary;
+
+      &::before {
+        background-color: $dark-text-secondary;
+      }
+    }
+
+    input:checked+.toggle__slider {
+      background-color: $dark-primary;
+      border-color: $dark-primary;
+    }
+
+    &__difficulty-pills .difficulty-pill {
+      background: $dark-bg-surface;
+      border-color: $dark-border-primary;
+
+      &.active {
+        background-color: $dark-primary;
+        color: $dark-bg-canvas;
+        border-color: $dark-primary;
+      }
+
+      &:hover:not(.active) {
+        background-color: rgba($dark-primary, 0.06);
+      }
+    }
+
+    &__select {
+      background-color: $dark-bg-surface;
+      border-color: $dark-border-primary;
+      color: $dark-text-primary;
+
+      &:focus {
+        border-color: $dark-primary;
+      }
+    }
+
+    &__danger-zone {
+      background-color: $dark-danger-bg;
+      border-color: $dark-danger;
+
+      h3 {
+        color: $dark-danger;
+      }
+
+      .danger-link {
+        color: $dark-danger;
+      }
+    }
+
+    &__bottom {
+      border-top-color: $dark-border-subtle;
+    }
+
+    &__discord-link {
+      color: $dark-text-secondary;
+
+      &:hover {
+        color: $dark-primary;
+      }
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      accent-color: $dark-primary;
+    }
+
+    .field-error {
+      color: $dark-danger;
+    }
+  }
+
+  // ── Progress ──
+  .progress-page {
+    &__weekly .weekly-bars .weekly-bar {
+      .bar-fill {
+        background-color: rgba($dark-primary, 0.3);
+        border-color: $dark-primary;
+      }
+
+      &.today .bar-fill {
+        background-color: $dark-primary;
+      }
+
+      .bar-label,
+      .bar-value {
+        color: $dark-text-secondary;
+      }
+
+      &.today .bar-label {
+        color: $dark-primary;
+      }
+    }
+
+    &__category-row {
+      .category-bar {
+        background-color: $dark-border-subtle;
+      }
+
+      .category-bar-fill {
+        background-color: $dark-primary;
+      }
+    }
+
+    &__milestone {
+      &.locked {
+        border-color: $dark-border-primary;
+      }
+
+      .milestone-bar {
+        background-color: $dark-border-subtle;
+      }
+
+      .milestone-bar-fill {
+        background-color: $dark-success;
+      }
+    }
+
+    &__stat-card .stat-icon {
+
+      // Override inline styles with higher specificity
+      &[style] {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  // ── AI Scenarios ──
+  .ai-scenarios {
+    &__header-icon {
+      background-color: rgba($dark-primary, 0.12);
+      color: $dark-primary;
+    }
+
+    &__card .scenario-icon {
+      background-color: rgba($dark-primary, 0.12);
+      color: $dark-primary;
+    }
+
+    &__cta {
+      background-color: rgba($dark-primary, 0.05);
+      border-color: $dark-primary;
+    }
+  }
+
+  // ── Profile ──
+  .profile {
+    &__avatar {
+      background-color: rgba($dark-primary, 0.15);
+      color: $dark-primary;
+      border-color: $dark-border-primary;
+    }
+
+    &__stat-card {
+      background: $dark-bg-surface;
+      border-color: $dark-border-primary;
+      box-shadow: 3px 3px 0px $dark-shadow;
+    }
+
+    &__activity-table {
+      .activity-header-row {
+        border-bottom-color: $dark-border-primary;
+      }
+
+      .activity-row {
+        border-bottom-color: $dark-border-subtle;
+      }
+    }
+  }
+
+  // ── Loading ──
+  .loading-screen {
+    background-color: $dark-bg-canvas;
+  }
+}

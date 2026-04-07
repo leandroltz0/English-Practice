@@ -1,19 +1,29 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { aiScenarios } from '../data/mockData';
-import { Sparkles, Code, Calendar, Handshake, Target, Coffee, Plane } from 'lucide-react';
-
-const iconMap: Record<string, React.FC<{ size?: number; className?: string }>> = {
-  Code,
-  Calendar,
-  Handshake,
-  Target,
-  Coffee,
-  Plane,
-};
+import { Sparkles } from 'lucide-react';
+import { getIcon } from '../utils/iconMap';
 
 export const AIScenarios: React.FC = () => {
+  const scenarioCards = useMemo(() => aiScenarios.map((scenario) => {
+    const IconComponent = getIcon(scenario.icon);
+    return (
+      <Card key={scenario.id} className="ai-scenarios__card">
+        <div className="scenario-icon">
+          {IconComponent && <IconComponent size={24} />}
+        </div>
+        <div className="scenario-info">
+          <h3>{scenario.title}</h3>
+          <p>{scenario.description}</p>
+          <div className="scenario-meta">
+            <Badge variant="neutral">{scenario.difficulty}</Badge>
+          </div>
+        </div>
+      </Card>
+    );
+  }), []);
+
   return (
     <div className="ai-scenarios">
       <div className="ai-scenarios__header">
@@ -28,23 +38,7 @@ export const AIScenarios: React.FC = () => {
       </div>
 
       <div className="ai-scenarios__grid">
-        {aiScenarios.map((scenario) => {
-          const IconComponent = iconMap[scenario.icon];
-          return (
-            <Card key={scenario.id} className="ai-scenarios__card">
-              <div className="scenario-icon">
-                {IconComponent && <IconComponent size={24} />}
-              </div>
-              <div className="scenario-info">
-                <h3>{scenario.title}</h3>
-                <p>{scenario.description}</p>
-                <div className="scenario-meta">
-                  <Badge variant="neutral">{scenario.difficulty}</Badge>
-                </div>
-              </div>
-            </Card>
-          );
-        })}
+        {scenarioCards}
       </div>
 
       <Card className="ai-scenarios__cta">

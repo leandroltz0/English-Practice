@@ -1,13 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
+import { useToast } from '../contexts/ToastContext';
+
+const validateEmail = (email: string): string | null => {
+  if (!email.trim()) return 'Email is required';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Please enter a valid email address';
+  return null;
+};
 
 export const Settings: React.FC = () => {
+  const toast = useToast();
   const [difficulty, setDifficulty] = useState('Intermediate');
   const [practiceReminders, setPracticeReminders] = useState(true);
   const [weeklyReport, setWeeklyReport] = useState(true);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  // Email editing with validation
+  const [email, setEmail] = useState('leonardo@example.com');
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [emailError, setEmailError] = useState<string | null>(null);
+
+  const handleEmailSave = useCallback(() => {
+    const error = validateEmail(email);
+    if (error) { setEmailError(error); return; }
+    setEmailError(null);
+    setEditingEmail(false);
+    toast.success('Email updated', 'Your email has been changed successfully.');
+  }, [email, toast]);
+
+  const handleSavePreferences = useCallback(async () => {
+    setSaving(true);
+    await new Promise((r) => setTimeout(r, 800));
+    setSaving(false);
+    toast.success('Preferences saved', 'Your settings have been updated.');
+  }, [toast]);
+
+  const handleDeleteAccount = useCallback(() => {
+    setShowDeleteConfirm(false);
+    toast.error('Account deleted', 'Your account has been permanently removed.');
+  }, [toast]);
 
   return (
     <div className="settings">
@@ -26,9 +60,32 @@ export const Settings: React.FC = () => {
               <div className="settings__row">
                 <div className="settings__field-info">
                   <div className="label">Email</div>
-                  <div className="value">leonardo@example.com</div>
+                  {editingEmail ? (
+                    <div className="settings__edit-field">
+                      <input
+                        type="email"
+                        className={`input ${emailError ? 'input--error' : ''}`}
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value); if (emailError) setEmailError(null); }}
+                        onKeyDown={(e) => e.key === 'Enter' && handleEmailSave()}
+                        aria-invalid={!!emailError}
+                        aria-describedby={emailError ? 'email-error' : undefined}
+                        autoFocus
+                      />
+                      {emailError && <span id="email-error" className="field-error" role="alert">{emailError}</span>}
+                    </div>
+                  ) : (
+                    <div className="value">{email}</div>
+                  )}
                 </div>
-                <button className="action-link">edit</button>
+                {editingEmail ? (
+                  <div className="settings__edit-actions">
+                    <button className="action-link" onClick={handleEmailSave}>save</button>
+                    <button className="action-link" onClick={() => { setEditingEmail(false); setEmailError(null); }}>cancel</button>
+                  </div>
+                ) : (
+                  <button className="action-link" onClick={() => setEditingEmail(true)}>edit</button>
+                )}
               </div>
               <div className="settings__row">
                 <div className="settings__field-info">
@@ -56,11 +113,7 @@ export const Settings: React.FC = () => {
                   <div className="label">Practice Reminders</div>
                 </div>
                 <label className="toggle">
-                  <input
-                    type="checkbox"
-                    checked={practiceReminders}
-                    onChange={() => setPracticeReminders(!practiceReminders)}
-                  />
+                  <input type="checkbox" checked={practiceReminders} onChange={() => setPracticeReminders(!practiceReminders)} />
                   <span className="toggle__slider" />
                 </label>
               </div>
@@ -69,18 +122,14 @@ export const Settings: React.FC = () => {
                   <div className="label">Weekly Report</div>
                 </div>
                 <label className="toggle">
-                  <input
-                    type="checkbox"
-                    checked={weeklyReport}
-                    onChange={() => setWeeklyReport(!weeklyReport)}
-                  />
+                  <input type="checkbox" checked={weeklyReport} onChange={() => setWeeklyReport(!weeklyReport)} />
                   <span className="toggle__slider" />
                 </label>
               </div>
             </Card>
           </div>
 
-          {/* Settings link (placeholder) */}
+          {/* Settings link */}
           <div className="settings__section">
             <h3>SETTINGS</h3>
             <Card>
@@ -89,7 +138,7 @@ export const Settings: React.FC = () => {
                   <div className="label">Export Data</div>
                   <div className="value">Download your learning history</div>
                 </div>
-                <button className="action-link">export</button>
+                <button className="action-link" onClick={() => toast.info('Export started', 'Your data is being prepared for download.')}>export</button>
               </div>
             </Card>
           </div>
@@ -120,16 +169,16 @@ export const Settings: React.FC = () => {
                 <div className="label">Focus Areas</div>
                 <div className="settings__checkboxes">
                   <label className="checkbox-item">
-                    <input type="checkbox" defaultChecked /> Beginner
+                    <input type="checkbox" defaultChecked /> Idioms
                   </label>
                   <label className="checkbox-item">
-                    <input type="checkbox" /> Intermediate
+                    <input type="checkbox" /> Phrasal Verbs
                   </label>
                   <label className="checkbox-item">
-                    <input type="checkbox" defaultChecked /> 2x2
+                    <input type="checkbox" defaultChecked /> Business English
                   </label>
                   <label className="checkbox-item">
-                    <input type="checkbox" /> 2x2
+                    <input type="checkbox" /> Slang & Informal
                   </label>
                 </div>
               </div>
@@ -137,9 +186,9 @@ export const Settings: React.FC = () => {
               <div className="settings__field-group">
                 <div className="label">Microphone</div>
                 <select className="settings__select">
-                  <option>Microphone</option>
                   <option>Default Microphone</option>
                   <option>External Mic</option>
+                  <option>Headset Mic</option>
                 </select>
               </div>
             </Card>
@@ -158,21 +207,17 @@ export const Settings: React.FC = () => {
       {/* Bottom bar */}
       <div className="settings__bottom">
         <a href="#" className="settings__discord-link">Discord</a>
-        <Button>Save Preferences</Button>
+        <Button loading={saving} onClick={handleSavePreferences}>Save Preferences</Button>
       </div>
 
       {showDeleteConfirm && (
-        <Modal onClose={() => setShowDeleteConfirm(false)}>
+        <Modal onClose={() => setShowDeleteConfirm(false)} title="Delete account confirmation">
           <div className="settings__modal">
             <h3>Are you sure?</h3>
             <p>This action cannot be undone. All your progress, XP, and learning history will be permanently deleted.</p>
             <div className="settings__modal-actions">
-              <Button variant="outline" onClick={() => setShowDeleteConfirm(false)}>
-                Cancel
-              </Button>
-              <Button className="button--danger">
-                Yes, delete my account
-              </Button>
+              <Button variant="outline" onClick={() => setShowDeleteConfirm(false)}>Cancel</Button>
+              <Button className="button--danger" onClick={handleDeleteAccount}>Yes, delete my account</Button>
             </div>
           </div>
         </Modal>

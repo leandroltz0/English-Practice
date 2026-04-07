@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
-import { PlaySquare, Sparkles, BookOpen, Lightbulb, HelpCircle, CheckCircle, XCircle } from 'lucide-react';
+import { PlaySquare, Sparkles, BookOpen, Lightbulb, HelpCircle, CheckCircle, XCircle, Trophy, Zap } from 'lucide-react';
+import { getIcon } from '../utils/iconMap';
 import type { TabType } from '../components/layout/Sidebar';
 import { phrases, wordOfTheDay, dailyTips, quizQuestions } from '../data/mockData';
 
@@ -19,44 +20,43 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
 
   const currentQuestion = quizQuestions[currentQuizIndex];
   const currentTip = dailyTips[0];
+  const TipIcon = useMemo(() => getIcon(currentTip.icon), [currentTip.icon]);
+  const recentPhrases = useMemo(() => phrases.slice(0, 5), []);
 
-  const handleQuizAnswer = (index: number) => {
+  const handleQuizAnswer = useCallback((index: number) => {
     if (selectedAnswer !== null) return;
     setSelectedAnswer(index);
     if (index === currentQuestion.correctIndex) {
       setQuizScore((s) => s + 1);
     }
-  };
+  }, [selectedAnswer, currentQuestion.correctIndex]);
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = useCallback(() => {
     if (currentQuizIndex < quizQuestions.length - 1) {
       setCurrentQuizIndex((i) => i + 1);
       setSelectedAnswer(null);
     } else {
       setQuizFinished(true);
     }
-  };
+  }, [currentQuizIndex]);
 
-  const handleRestartQuiz = () => {
+  const handleRestartQuiz = useCallback(() => {
     setQuizStarted(false);
     setCurrentQuizIndex(0);
     setSelectedAnswer(null);
     setQuizScore(0);
     setQuizFinished(false);
-  };
-
-  // Get recent phrases for the bottom scroll
-  const recentPhrases = phrases.slice(0, 5);
+  }, []);
 
   return (
     <div className="dashboard">
-      {/* Header — matches reference */}
+      {/* Header */}
       <div className="dashboard__header">
         <h1>Welcome back.</h1>
         <p>Practice the phrases that define your career.</p>
       </div>
 
-      {/* Feature Cards Grid — matches reference: Phrase Finder + AI Scenarios */}
+      {/* Feature Cards Grid */}
       <div className="dashboard__grid">
         <Card className="dashboard__feature-card" onClick={() => onNavigate('phrase')}>
           <div>
@@ -65,7 +65,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
             </div>
             <div className="feature-label">VIDEO CONTEXT</div>
             <h2>Phrase Finder</h2>
-            <p>Practice the phrases that caves you the wrile that define your career.</p>
+            <p>Discover real phrases from videos and practice with native speakers.</p>
           </div>
           <Button style={{ marginTop: '16px' }} onClick={(e) => { e.stopPropagation(); onNavigate('phrase'); }}>
             Start practicing
@@ -79,7 +79,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
               <Sparkles />
             </div>
             <h2>AI Scenarios</h2>
-            <p>Practice the phrases that eeits your career to grat your scenarios.</p>
+            <p>Practice real-world professional conversations powered by artificial intelligence.</p>
             <ul>
               <li>Code Review</li>
               <li>Daily Standup</li>
@@ -89,7 +89,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
         </Card>
       </div>
 
-      {/* Word of the Day — useful for learners */}
+      {/* Word of the Day */}
       <div className="dashboard__section">
         <div className="section-header">
           <BookOpen size={20} />
@@ -109,7 +109,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
         </Card>
       </div>
 
-      {/* Daily Tip — practical grammar/pronunciation tip */}
+      {/* Daily Tip */}
       <div className="dashboard__section">
         <div className="section-header">
           <Lightbulb size={20} />
@@ -117,7 +117,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
         </div>
         <Card className="dashboard__tip-card">
           <div className="tip-header">
-            <span className="tip-icon">{currentTip.icon}</span>
+            <span className="tip-icon">{TipIcon ? <TipIcon size={20} /> : null}</span>
             <h3>{currentTip.title}</h3>
             <Badge variant="neutral">{currentTip.category}</Badge>
           </div>
@@ -125,7 +125,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
         </Card>
       </div>
 
-      {/* Quick Quiz — interactive feature for learners */}
+      {/* Quick Quiz */}
       <div className="dashboard__section">
         <div className="section-header">
           <HelpCircle size={20} />
@@ -142,10 +142,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
               <div className="quiz-score">{quizScore}/{quizQuestions.length}</div>
               <p>
                 {quizScore === quizQuestions.length
-                  ? 'Perfect score! 🎉'
+                  ? <><Trophy size={16} className="inline-icon" /> Perfect score!</>
                   : quizScore >= quizQuestions.length * 0.6
-                  ? 'Great job! Keep practicing! 💪'
-                  : 'Keep learning — you\'ll get better! 📚'}
+                  ? <><Zap size={16} className="inline-icon" /> Great job! Keep practicing!</>
+                  : <><BookOpen size={16} className="inline-icon" /> Keep learning — you'll get better!</>}
               </p>
               <Button variant="outline" onClick={handleRestartQuiz}>Try Again</Button>
             </div>
@@ -159,26 +159,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                 {currentQuestion.options.map((option, idx) => {
                   let optionClass = 'quiz-option';
                   if (selectedAnswer !== null) {
-                    if (idx === currentQuestion.correctIndex) {
-                      optionClass += ' correct';
-                    } else if (idx === selectedAnswer) {
-                      optionClass += ' incorrect';
-                    }
+                    if (idx === currentQuestion.correctIndex) optionClass += ' correct';
+                    else if (idx === selectedAnswer) optionClass += ' incorrect';
                   }
                   return (
-                    <button
-                      key={idx}
-                      className={optionClass}
-                      onClick={() => handleQuizAnswer(idx)}
-                      disabled={selectedAnswer !== null}
-                    >
+                    <button key={idx} className={optionClass} onClick={() => handleQuizAnswer(idx)} disabled={selectedAnswer !== null}>
                       <span>{option}</span>
-                      {selectedAnswer !== null && idx === currentQuestion.correctIndex && (
-                        <CheckCircle size={18} />
-                      )}
-                      {selectedAnswer !== null && idx === selectedAnswer && idx !== currentQuestion.correctIndex && (
-                        <XCircle size={18} />
-                      )}
+                      {selectedAnswer !== null && idx === currentQuestion.correctIndex && <CheckCircle size={18} />}
+                      {selectedAnswer !== null && idx === selectedAnswer && idx !== currentQuestion.correctIndex && <XCircle size={18} />}
                     </button>
                   );
                 })}
@@ -196,7 +184,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
         </Card>
       </div>
 
-      {/* Recent Phrases — matches reference bottom scroll */}
+      {/* Recent Phrases */}
       <div className="dashboard__recent">
         <h2>Recent Phrases</h2>
         <div className="dashboard__scroll-row">

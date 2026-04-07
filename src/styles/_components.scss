@@ -19,19 +19,37 @@
   box-shadow: $shadow-hard;
   cursor: pointer;
 
-  &:hover {
+  &:hover:not(:disabled) {
     transform: translate(2px, 2px);
     box-shadow: $shadow-hard-hover;
   }
 
   &:focus-visible {
-    outline: 2px solid $color-primary;
-    outline-offset: 2px;
+    outline: 2px dashed $color-primary;
+    outline-offset: 3px;
   }
 
-  &:active {
+  &:active:not(:disabled) {
     transform: translate(3px, 3px);
     box-shadow: none;
+  }
+
+  // ── Disabled state ──
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: $shadow-hard;
+  }
+
+  // ── Loading state ──
+  &--loading {
+    position: relative;
+    pointer-events: none;
+  }
+
+  &__spinner {
+    animation: spin 0.8s linear infinite;
   }
 
   &--primary {
@@ -44,6 +62,11 @@
     color: $color-primary;
     border-color: $color-primary;
   }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .badge {
@@ -83,4 +106,270 @@
     outline: 2px solid $color-primary;
     outline-offset: 2px;
   }
+
+  // ── Error state ──
+  &--error {
+    border-color: $color-danger;
+    border-width: 2px;
+
+    &:focus {
+      border-color: $color-danger;
+    }
+  }
+}
+
+// ── Field error message ──
+.field-error {
+  display: block;
+  font-size: 13px;
+  color: $color-danger;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+// ── Edit field wrapper ──
+.settings__edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  .input {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+}
+
+.settings__edit-actions {
+  display: flex;
+  gap: $space-base;
+}
+
+/* ═══════════════════════════════════════
+   Tooltip — Hand-drawn style
+═══════════════════════════════════════ */
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: $text-primary;
+  color: $bg-surface;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: normal;
+  max-width: 280px;
+  z-index: 100;
+  pointer-events: none;
+  animation: tooltipFadeIn 0.2s ease;
+
+  // Hand-drawn irregular shape
+  border-top-left-radius: 7px 5px;
+  border-bottom-right-radius: 5px 7px;
+  border-top-right-radius: 6px 8px;
+  border-bottom-left-radius: 8px 6px;
+
+  &__arrow {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid $text-primary;
+  }
+}
+
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ═══════════════════════════════════════
+   Skeleton — Hand-drawn shimmer
+═══════════════════════════════════════ */
+.skeleton {
+  background-color: $border-subtle;
+  border-radius: $border-radius;
+  position: relative;
+  overflow: hidden;
+
+  // Hand-drawn irregular edges
+  border-top-left-radius: 7px 5px;
+  border-bottom-right-radius: 5px 7px;
+  border-top-right-radius: 6px 8px;
+  border-bottom-left-radius: 8px 6px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    animation: shimmer 1.5s infinite;
+  }
+
+  &--text {
+    height: 14px;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+
+  &--bar {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  &--circle {
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  &--card {
+    height: 160px;
+    width: 100%;
+  }
+}
+
+.skeleton-card {
+  @include card-surface;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-style: dashed;
+  opacity: 0.7;
+}
+
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ═══════════════════════════════════════
+   Toast Notifications — Hand-drawn style
+═══════════════════════════════════════ */
+.toast-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 380px;
+  width: calc(100% - 32px);
+
+  @media (min-width: 768px) {
+    width: 380px;
+  }
+}
+
+.toast {
+  @include hand-drawn-border;
+  background: $bg-surface;
+  box-shadow: $shadow-hard;
+  padding: calc($space-base * 2) calc($space-base * 2.5);
+  display: flex;
+  align-items: flex-start;
+  gap: calc($space-base * 1.5);
+  animation: toastSlideIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &--exit {
+    animation: toastSlideOut 0.3s ease forwards;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  &--success .toast__icon { color: $color-success; }
+  &--error .toast__icon { color: $color-danger; }
+  &--warning .toast__icon { color: #F5A623; }
+  &--info .toast__icon { color: $color-primary; }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 14px;
+    color: $text-primary;
+    margin-bottom: 2px;
+  }
+
+  &__description {
+    font-size: 13px;
+    color: $text-secondary;
+    line-height: 1.4;
+  }
+
+  &__close {
+    background: none;
+    border: none;
+    color: $text-secondary;
+    cursor: pointer;
+    padding: 2px;
+    flex-shrink: 0;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: $text-primary;
+    }
+  }
+}
+
+@keyframes toastSlideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes toastSlideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════
+   Utility icon classes
+═══════════════════════════════════════ */
+.inline-icon {
+  display: inline;
+  vertical-align: -3px;
+  margin-right: 4px;
+}
+
+.section-icon {
+  display: inline;
+  vertical-align: -2px;
+  margin-right: 6px;
+  color: $color-primary;
 }
