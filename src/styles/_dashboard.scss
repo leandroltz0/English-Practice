@@ -1,5 +1,6 @@
 @use "variables" as *;
 @use "mixins" as *;
+@use "sass:color";
 
 .dashboard {
   &__header {
@@ -236,7 +237,7 @@
         &.correct {
           background-color: rgba($color-success, 0.15);
           border-color: $color-success;
-          color: darken($color-success, 25%);
+          color: color.adjust($color-success, $lightness: -25%);
         }
 
         &.incorrect {

@@ -4,7 +4,7 @@
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background-color: #E2E8EE;
+  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,11 +27,20 @@
   }
 
   &__logo {
-    width: 180px;
-    height: 180px;
+    width: 35rem;
+    height: 35rem;
     object-fit: contain;
     border-radius: 28px;
-    filter: drop-shadow(0 8px 32px rgba(91, 155, 213, 0.25));
+  }
+
+  &__video {
+    width: 35rem;
+    height: 35rem;
+    object-fit: contain;
+    border-radius: 28px;
+    border: none;
+    outline: none;
+    background-color: transparent;
   }
 }
 
@@ -40,10 +49,12 @@
     opacity: 0;
     transform: scale(0.7);
   }
+
   60% {
     opacity: 1;
     transform: scale(1.03);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);

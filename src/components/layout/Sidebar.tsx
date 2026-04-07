@@ -1,6 +1,6 @@
 import React from 'react';
-import { Home, PlaySquare, Sparkles, TrendingUp, User, Settings } from 'lucide-react';
-import logoSrc from '../../assets/logo.png';
+import { Home, PlaySquare, Sparkles, TrendingUp, User, Settings, Sun, Moon, Monitor } from 'lucide-react';
+import logoSrc from '../../assets/logo-no-bg.png';
 
 export type TabType = 'home' | 'phrase' | 'scenarios' | 'progress' | 'profile' | 'settings';
 
@@ -24,11 +24,15 @@ const bottomNavItems: { id: TabType; icon: React.ReactNode; label: string }[] = 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
   return (
     <nav className="sidebar" role="navigation" aria-label="Main navigation">
+
       {/* Logo */}
       <div className="sidebar__logo">
         <img src={logoSrc} alt="" className="sidebar__logo-img" />
         <span className="sidebar__logo-text">English Lab</span>
       </div>
+
+      {/* Section label - Menu */}
+      <span className="sidebar__section-label">Menu</span>
 
       {/* Main nav items */}
       <div className="sidebar__nav-main">
@@ -48,6 +52,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
         ))}
       </div>
 
+      {/* Section label - Account */}
+      <span className="sidebar__section-label">Account</span>
+
       {/* Bottom nav items */}
       <div className="sidebar__nav-bottom">
         {bottomNavItems.map((tab) => (
@@ -65,6 +72,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => 
           </button>
         ))}
       </div>
+
+      {/* Theme toggle buttons - desktop only */}
+      <div className="sidebar__theme-toggle">
+        <button type="button" className="sidebar__theme-btn" title="Light mode">
+          <Sun size={13} />
+          <span>Light</span>
+        </button>
+        <button type="button" className="sidebar__theme-btn" title="Dark mode">
+          <Moon size={13} />
+          <span>Dark</span>
+        </button>
+        <button type="button" className="sidebar__theme-btn sidebar__theme-btn--active" title="Auto mode">
+          <Monitor size={13} />
+          <span>Auto</span>
+        </button>
+      </div>
+
     </nav>
   );
 };

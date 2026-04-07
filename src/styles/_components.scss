@@ -1,5 +1,6 @@
 @use "variables" as *;
 @use "mixins" as *;
+@use "sass:color";
 
 .card {
   @include card-surface;
@@ -55,7 +56,7 @@
 
   &--success {
     background-color: rgba($color-success, 0.2);
-    color: darken($color-success, 20%);
+    color: color.adjust($color-success, $lightness: -20%);
   }
 
   &--neutral {

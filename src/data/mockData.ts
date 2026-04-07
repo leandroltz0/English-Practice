@@ -122,42 +122,42 @@ export const categories: Category[] = [
   {
     id: 'idioms',
     name: 'Idioms',
-    icon: '💬',
+    icon: 'MessageCircle', // 💬 -> MessageCircle
     description: 'Common English expressions and sayings',
     phraseCount: 45,
   },
   {
     id: 'phrasal-verbs',
     name: 'Phrasal Verbs',
-    icon: '🔄',
+    icon: 'Repeat2', // 🔄 -> Repeat2
     description: 'Verbs combined with prepositions',
     phraseCount: 38,
   },
   {
     id: 'business',
     name: 'Business English',
-    icon: '💼',
+    icon: 'Briefcase', // 💼 -> Briefcase
     description: 'Professional and workplace vocabulary',
     phraseCount: 52,
   },
   {
     id: 'transitions',
     name: 'Transitions',
-    icon: '➡️',
+    icon: 'GitCommit', // ➡️ -> GitCommit (arrows/connectors)
     description: 'Connecting words and phrases',
     phraseCount: 28,
   },
   {
     id: 'slang',
     name: 'Slang',
-    icon: '😎',
+    icon: 'Smile', // 😎 -> Smile
     description: 'Informal and colloquial expressions',
     phraseCount: 34,
   },
   {
     id: 'travel',
     name: 'Travel',
-    icon: '✈️',
+    icon: 'Plane', // ✈️ -> Plane
     description: 'Useful phrases for traveling',
     phraseCount: 41,
   },
@@ -565,7 +565,7 @@ export const aiScenarios: AIScenario[] = [
     title: 'Code Review',
     description: 'Practice discussing code changes, giving constructive feedback, and defending technical decisions in English.',
     difficulty: 'intermediate',
-    icon: '💻',
+    icon: 'Code',
     available: false,
   },
   {
@@ -573,7 +573,7 @@ export const aiScenarios: AIScenario[] = [
     title: 'Daily Standup',
     description: 'Simulate daily standup meetings — describe what you did, what you\'re doing, and any blockers.',
     difficulty: 'beginner',
-    icon: '🗓️',
+    icon: 'Calendar',
     available: false,
   },
   {
@@ -581,7 +581,7 @@ export const aiScenarios: AIScenario[] = [
     title: 'Client Negotiation',
     description: 'Practice negotiating deadlines, scope, and pricing with a simulated client. Build confidence in business discussions.',
     difficulty: 'advanced',
-    icon: '🤝',
+    icon: 'Handshake',
     available: false,
   },
   {
@@ -589,7 +589,7 @@ export const aiScenarios: AIScenario[] = [
     title: 'Job Interview',
     description: 'Practice answering common interview questions, telling stories using the STAR method, and asking good questions.',
     difficulty: 'intermediate',
-    icon: '🎯',
+    icon: 'Target',
     available: false,
   },
   {
@@ -597,7 +597,7 @@ export const aiScenarios: AIScenario[] = [
     title: 'Coffee Shop Ordering',
     description: 'Practice casual conversation and ordering at a coffee shop, including special requests and small talk.',
     difficulty: 'beginner',
-    icon: '☕',
+    icon: 'Coffee',
     available: false,
   },
   {
@@ -605,7 +605,7 @@ export const aiScenarios: AIScenario[] = [
     title: 'Airport Check-in',
     description: 'Simulate checking in for a flight, going through security, and handling common travel situations.',
     difficulty: 'beginner',
-    icon: '✈️',
+    icon: 'Plane',
     available: false,
   },
 ];
